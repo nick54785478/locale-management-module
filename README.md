@@ -34,10 +34,10 @@
 
 採用模板方法模式，核心邏輯封裝於 AbstractMessageTranslator：
 
-	| 元件名稱 | 負責語義 | 快取名稱 (Cache Name) |
-	| --- | --- | --- |
-	| LocaleExceptionMessageTranslator | 業務例外（Errors）| ExceptionMessage |
-	| LocaleSuccessMessageTranslator | 成功回應（Success） | SuccessMessage |
+| 元件名稱 | 負責語義 | 快取名稱 (Cache Name) |
+| --- | --- | --- |
+| LocaleExceptionMessageTranslator | 業務例外（Errors）| ExceptionMessage |
+| LocaleSuccessMessageTranslator | 成功回應（Success） | SuccessMessage |
 
 * 正規化：自動處理語系字串（如 zh-TW 轉為 zh_tw），確保快取 Key 一致性。
 
