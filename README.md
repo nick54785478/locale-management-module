@@ -41,6 +41,46 @@
 
 * 快取 Key 格式：{messageKey}:{lang}。
 
+**流程圖示意**
+
+	graph TD
+	    %% 1. 語系解析階段
+	    Start((API Request)) --> Filter[ContextHolderFilter]
+	    
+	    subgraph "Phase 1: Language Resolution (攔截器層)"
+	        Filter --> HeaderCheck{Header 包含 lang?}
+	        HeaderCheck -- Yes --> SetLang[ContextHolder.setLang]
+	        HeaderCheck -- No  --> SetDefault[預設為 en_us]
+	        SetDefault --> SetLang
+	    end
+	
+	    %% 2. 業務執行階段
+	    SetLang --> Business[執行業務邏輯 / Service]
+	
+	    subgraph "Phase 2: Execution & Response (處理層)"
+	        Business -- "拋出 Exception" --> ExHandler[GlobalExceptionHandler]
+	        Business -- "正常回傳 Result" --> ResHandler[GlobalLocaleResponseHandler]
+	    end
+	
+	    %% 3. 轉譯核心階段
+	    subgraph "Phase 3: Translation Core (轉譯核心層)"
+	        ExHandler  --> ExTrans[LocaleExceptionMessageTranslator]
+	        ResHandler --> SucTrans[LocaleSuccessMessageTranslator]
+	        
+	        ExTrans  --> Template[AbstractMessageTranslator<br/>Template Method]
+	        SucTrans --> Template
+	        
+	        Template --> Normalizer[語系正規化: lang.toLowerCase]
+	        Normalizer --> CacheCheck{CacheManager 命中?}
+	        
+	        CacheCheck -- Hit  --> Return[返回翻譯結果]
+	        CacheCheck -- Miss --> DB[(Translation Repository)]
+	        DB --> Return
+	    end
+	
+	    %% 4. 回傳階段
+	    Return --> FinalResponse((API Response))
+
 
 ## 領域模型設計 (Domain Model)
 
