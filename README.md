@@ -1,7 +1,5 @@
 # Multi-Language Translation Module
 
-## 模組概述
-
 本模組提供系統級的國際化（i18n）解決方案，旨在統一管理 業務例外訊息（Exception Messages） 與 API 成功回應訊息（Success Messages）。透過高效的快取機制與 AOP 攔截，實現對開發者透明、對效能友好的多語系轉譯。
 
 
