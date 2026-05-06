@@ -1,0 +1,442 @@
+[
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "PROBLEM_REPORT_NOT_FOUND",
+    "description": "'查無該筆問題單'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Problem Report Not Found",
+        "remark": "查無該筆問題單(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "查無該筆問題單",
+        "remark": "查無該筆問題單(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "查无该笔问题单",
+        "remark": "查無該筆問題單(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "ENTITY_NOT_FOUND",
+    "description": "'查無該筆物件資料'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Entity Not Found",
+        "remark": "查無該筆物件資料(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "查無該筆物件資料",
+        "remark": "查無該筆物件資料(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "查无该笔物件资料",
+        "remark": "查無該筆物件資料(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "INVALID_FORM_STATUS",
+    "description": "'此表單狀態不合法'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "The form status is invalid",
+        "remark": "此表單狀態不合法(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "此表單狀態不合法",
+        "remark": "此表單狀態不合法(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "此表单状态不合法",
+        "remark": "此表單狀態不合法(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "UPLOAD_FILE_IS_INVALID",
+    "description": "'上傳檔案資料有誤'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "The upload file is invalid",
+        "remark": "上傳檔案資料有誤(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "上傳檔案資料有誤",
+        "remark": "上傳檔案資料有誤(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "上传档案资料有误",
+        "remark": "上傳檔案資料有誤(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "DATA_IS_INVALID",
+    "description": "'資料不合法'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "The data is invalid",
+        "remark": "資料不合法(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "資料格式不合法",
+        "remark": "資料不合法(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "资料格式不合法",
+        "remark": "資料不合法(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "UNAUTHORIZED",
+    "description": "'請求未被授權'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Unauthorized Not Allowed",
+        "remark": "請求未被授權(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "請求未被授權(缺少或錯誤的認證憑證)",
+        "remark": "請求未被授權(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "请求未被授权(缺少或错误的认证凭证)",
+        "remark": "請求未被授權(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "FORBIDDEN",
+    "description": "'權限不足拒絕執行'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Permissions Denied. Insufficient",
+        "remark": "權限不足拒絕執行(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "權限不足、拒絕執行",
+        "remark": "權限不足拒絕執行(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "权限不足、拒绝执行",
+        "remark": "權限不足拒絕執行(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "UNEXPECTED_ERROR",
+    "description": "'系統發生非預期錯誤'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Internal Server Error Occurred. Please contact the system administrator",
+        "remark": "系統發生非預期錯誤(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "系統發生非預期錯誤，請聯絡管理員",
+        "remark": "系統發生非預期錯誤(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "系统发生非预期错误，请联络管理员",
+        "remark": "系統發生非預期錯誤(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "DEFAULT_ERROR",
+    "description": "'預設錯誤'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Error Occurred, throw Exception",
+        "remark": "預設錯誤(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "發生錯誤，拋出例外",
+        "remark": "預設錯誤(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "发生错误，抛出例外",
+        "remark": "預設錯誤(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "SUCCESS_MESSAGE",
+    "code": "SUCCESS",
+    "description": "'成功'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Success",
+        "remark": "成功(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "成功",
+        "remark": "成功(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "成功",
+        "remark": "成功(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "SUCCESS_MESSAGE",
+    "code": "SAVED_SUCCESS",
+    "description": "'儲存成功'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Success",
+        "remark": "儲存成功(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "儲存成功",
+        "remark": "儲存成功(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "储存成功",
+        "remark": "儲存成功(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "SUCCESS_MESSAGE",
+    "code": "UPLOADED_SUCCESS",
+    "description": "'上傳成功'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Success",
+        "remark": "上傳成功(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "儲存成功",
+        "remark": "上傳成功(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "上传成功",
+        "remark": "上傳成功(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "SUCCESS_MESSAGE",
+    "code": "DOWNLOADED_SUCCESS",
+    "description": "'下載成功'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Success",
+        "remark": "下載成功(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "儲存成功",
+        "remark": "下載成功(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "下载成功",
+        "remark": "下載成功(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "SUCCESS_MESSAGE",
+    "code": "CREATED_SUCCESS",
+    "description": "'新增成功'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Success",
+        "remark": "新增成功(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "新增成功",
+        "remark": "新增成功(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "新增成功",
+        "remark": "新增成功(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "SUCCESS_MESSAGE",
+    "code": "UPDATED_SUCCESS",
+    "description": "'更新成功'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Success",
+        "remark": "更新成功(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "更新成功",
+        "remark": "更新成功(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "更新成功",
+        "remark": "更新成功(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "SUCCESS_MESSAGE",
+    "code": "DELETED_SUCCESS",
+    "description": "'刪除成功'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Success",
+        "remark": "刪除成功(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "刪除成功",
+        "remark": "刪除成功(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "删除成功",
+        "remark": "刪除成功(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "SUCCESS_MESSAGE",
+    "code": "QUERIED_SUCCESS",
+    "description": "'查詢成功'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Success",
+        "remark": "查詢成功(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "查詢成功",
+        "remark": "查詢成功(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "查询成功",
+        "remark": "查詢成功(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "OPTIONS",
+    "code": "YES_NO",
+    "description": "'Yes'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Yes",
+        "remark": "YES(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "是",
+        "remark": "YES(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "是",
+        "remark": "YES(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "OPTIONS",
+    "code": "YES_NO",
+    "description": "'No'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "No",
+        "remark": "No(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "否",
+        "remark": "No(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "否",
+        "remark": "No(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "UI_LABEL",
+    "code": "NAME",
+    "description": "'姓名'的多語配置",
+    "translations": [
+      {
+        "language": "en_us",
+        "textValue": "Name",
+        "remark": "姓名(英文)"
+      },
+      {
+        "language": "zh_tw",
+        "textValue": "姓名",
+        "remark": "姓名(繁中)"
+      },
+      {
+        "language": "zh_cn",
+        "textValue": "姓名",
+        "remark": "姓名(簡中)"
+      }
+    ]
+  }
+]
