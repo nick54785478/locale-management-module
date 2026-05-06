@@ -61,9 +61,7 @@
 **全域成功回應處理 (GlobalLocaleResponseHandler)**
 
 利用 ResponseBodyAdvice 在資料寫入 HTTP Response 前進行最後加工：
-
 >* POJO 處理：透過 Java Bean 規範的 Getter/Setter 存取 message 欄位，符合安全規範。
-
 >* Record 處理：由於 Record 是 Immutable 的，系統會透過反射（Reflection）讀取組件並調用全參數建構子（Canonical Constructor）重新建立物件。
 
 
