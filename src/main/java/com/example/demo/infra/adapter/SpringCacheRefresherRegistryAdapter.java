@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.example.demo.application.port.CacheRefresherPort;
 import com.example.demo.application.port.CacheRefresherRegistryPort;
 import com.example.demo.infra.locale.refresher.AbstractCacheRefresher;
 
@@ -116,10 +117,10 @@ public class SpringCacheRefresherRegistryAdapter implements CacheRefresherRegist
 	 * </ul>
 	 *
 	 * @param type Refresher 類型識別（例如 SUCCESS_MESSAGE、EXCEPTION_MESSAGE）
-	 * @return 對應的 {@link AbstractCacheRefresher}，若不存在則為 {@code null}
+	 * @return 對應的 {@link CacheRefresherPort}，若不存在則為 {@code null}
 	 */
 	@Override
-	public AbstractCacheRefresher getRefresher(String type) {
+	public CacheRefresherPort getRefresher(String type) {
 		return refresherMap.get(type);
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.application.port.CacheMangerPort;
-import com.example.demo.application.shared.CacheQueriedData;
+import com.example.demo.application.shared.dto.CacheQueriedData;
 
 import lombok.AllArgsConstructor;
 

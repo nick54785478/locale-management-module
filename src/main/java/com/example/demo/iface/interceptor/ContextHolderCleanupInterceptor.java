@@ -3,7 +3,7 @@ package com.example.demo.iface.interceptor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.example.demo.infra.shared.context.ContextHolder;
+import com.example.demo.application.shared.context.ContextHolder;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

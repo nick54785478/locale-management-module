@@ -1,6 +1,11 @@
 package com.example.demo.iface.dto.res;
 
-import com.example.demo.application.shared.CacheQueriedData;
+import io.swagger.v3.oas.annotations.media.Schema;
+import com.example.demo.application.shared.dto.CacheQueriedData;
 
-public record CachesQueriedResource(String code, String message, CacheQueriedData data) {
+@Schema(description = "全部快取查詢結果")
+public record CachesQueriedResource(
+    @Schema(description = "回應代碼", example = "200") String code, 
+    @Schema(description = "回應訊息", example = "QUERY_SUCCESS") String message, 
+    @Schema(description = "快取資料") CacheQueriedData data) {
 }

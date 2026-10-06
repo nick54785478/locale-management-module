@@ -1,4 +1,4 @@
-package com.example.demo.infra.locale.share.payload;
+package com.example.demo.application.shared.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

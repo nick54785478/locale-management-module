@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.application.service.CacheQueryService;
-import com.example.demo.application.shared.CacheQueriedData;
+import com.example.demo.application.shared.dto.CacheQueriedData;
 import com.example.demo.iface.dto.res.CacheQueriedResource;
 import com.example.demo.iface.dto.res.CachesQueriedResource;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 /**
@@ -46,6 +49,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/cache")
+@Tag(name = "Cache Monitor API", description = "快取監控與查詢 API (僅供內部測試與維運)")
 public class CacheMonitorController {
 
 	/**
@@ -69,7 +73,10 @@ public class CacheMonitorController {
 	 * @return 指定 key 的快取值（Optional 包裝）
 	 */
 	@GetMapping("")
-	public ResponseEntity<CacheQueriedResource> monitor(@RequestParam String cacheName, @RequestParam String key) {
+	@Operation(summary = "查詢單一快取值", description = "依據 cacheName 與 key 查詢快取內容")
+	public ResponseEntity<CacheQueriedResource> monitor(
+			@Parameter(description = "快取名稱 (例如: ExceptionMessage)") @RequestParam String cacheName, 
+			@Parameter(description = "快取 Key") @RequestParam String key) {
 		Optional<Object> op = cacheQueryService.getCache(cacheName, key);
 		return new ResponseEntity<>(new CacheQueriedResource("200", "QUERIED_SUCCESS", op), HttpStatus.OK);
 	}
@@ -90,7 +97,9 @@ public class CacheMonitorController {
 	 * @return 快取內所有資料（key / value）
 	 */
 	@GetMapping("/all")
-	public ResponseEntity<CachesQueriedResource> getAllCache(@RequestParam String cacheName) {
+	@Operation(summary = "查詢所有快取資料", description = "取得指定 cacheName 下的所有 key/value (僅支援 Caffeine)")
+	public ResponseEntity<CachesQueriedResource> getAllCache(
+			@Parameter(description = "快取名稱") @RequestParam String cacheName) {
 		CacheQueriedData responseData = cacheQueryService.getAllCache(cacheName);
 		return new ResponseEntity<>(new CachesQueriedResource("200", "QUERY_SUCCESS", responseData), HttpStatus.OK);
 	}

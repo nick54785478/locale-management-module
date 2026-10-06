@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.demo.infra.locale.translator.LocaleExceptionMessageTranslator;
 import com.example.demo.infra.mapper.ExceptionMapper;
-import com.example.demo.infra.shared.context.ContextHolder;
-import com.example.demo.infra.shared.exception.BaseLocalizableException;
-import com.example.demo.infra.shared.res.BaseExceptionResponse;
+import com.example.demo.application.shared.context.ContextHolder;
+import com.example.demo.application.shared.exception.BaseLocalizableException;
+import com.example.demo.application.shared.res.BaseExceptionResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

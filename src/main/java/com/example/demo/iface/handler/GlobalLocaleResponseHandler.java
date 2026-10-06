@@ -17,9 +17,9 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.example.demo.application.domain.localization.aggregate.entity.Translation;
+import com.example.demo.infra.persistence.entity.Translation;
 import com.example.demo.infra.locale.translator.LocaleSuccessMessageTranslator;
-import com.example.demo.infra.shared.context.ContextHolder;
+import com.example.demo.application.shared.context.ContextHolder;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -9,7 +9,7 @@ import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.application.port.CacheMangerPort;
-import com.example.demo.application.shared.CacheQueriedData;
+import com.example.demo.application.shared.dto.CacheQueriedData;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

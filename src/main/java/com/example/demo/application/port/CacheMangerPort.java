@@ -2,7 +2,7 @@ package com.example.demo.application.port;
 
 import java.util.Optional;
 
-import com.example.demo.application.shared.CacheQueriedData;
+import com.example.demo.application.shared.dto.CacheQueriedData;
 
 /**
  * Cache 管理 Port（Application Layer 契約）。

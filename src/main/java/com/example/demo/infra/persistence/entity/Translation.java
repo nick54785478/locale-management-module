@@ -1,7 +1,7 @@
-package com.example.demo.application.domain.localization.aggregate.entity;
+package com.example.demo.infra.persistence.entity;
 
-import com.example.demo.application.domain.localization.aggregate.TranslationCategory;
-import com.example.demo.application.domain.localization.command.SaveTranslateCategoryCommand;
+import com.example.demo.infra.persistence.entity.TranslationCategory;
+import com.example.demo.application.shared.command.SaveTranslateCategoryCommand;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;

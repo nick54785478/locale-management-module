@@ -6,7 +6,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.application.domain.localization.aggregate.entity.Translation;
+import com.example.demo.infra.persistence.entity.Translation;
 import com.example.demo.infra.locale.share.enums.TranslationCacheName;
 import com.example.demo.infra.persistence.TranslationCategoryRepository;
 

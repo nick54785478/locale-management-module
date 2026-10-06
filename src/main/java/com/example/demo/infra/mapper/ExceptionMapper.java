@@ -7,10 +7,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import com.example.demo.application.domain.localization.aggregate.entity.Translation;
+import com.example.demo.infra.persistence.entity.Translation;
 import com.example.demo.config.config.MapStructConfiguration;
-import com.example.demo.infra.shared.context.ContextHolder;
-import com.example.demo.infra.shared.res.BaseExceptionResponse;
+import com.example.demo.application.shared.context.ContextHolder;
+import com.example.demo.application.shared.res.BaseExceptionResponse;
 
 @Mapper(componentModel = "spring", config = MapStructConfiguration.class)
 public interface ExceptionMapper {
@@ -49,10 +49,10 @@ public interface ExceptionMapper {
 		// 如果 Message 為空，使用預設 Message
 		if (response.getMessage() == null) {
 			switch (ContextHolder.getLang()) {
-			case "zh-tw":
+			case "zh_tw":
 				response.setMessage("發生錯誤，拋出例外");
 				break;
-			case "zh-cn":
+			case "zh_cn":
 				response.setMessage("发生错误，抛出异常");
 				break;
 			case null, default:

@@ -18,14 +18,14 @@
 * AOP 無感轉譯：自動攔截 Response Body，支援 Java Record 與 POJO 的訊息替換。
 * 高性能快取：整合 Caffeine (JVM In-Memory)，支援負向快取（Negative Caching）防止快取穿透。
 * 動態維護 (DDD)：符合 DDD 規範的 Aggregate 設計，支援在不重啟服務的情況下動態調整翻譯內容。
-* 語系自動解析：透過 Filter 自動從 Request Header 提取語系並維護上下文。
+* 語系自動解析：透過 Filter 自動從標準的 `Accept-Language` Header 提取語系並維護上下文。
 
 ## 系統架構與流程
 
 **1. 語系解析與上下文 (Language Resolution)**
 所有請求進入系統時，首站會經過 ContextHolderFilter：
->* 來源：讀取 Header 中的 lang 欄位（例如：zh_tw, en_us）。
->* 預設值：若未帶 Header，預設回退至 en_us。
+>* 來源：解析標準 HTTP `Accept-Language` Header（例如：`zh-TW`, `en-US`）。
+>* 正規化與預設值：為了對接國際標準與確保系統內部比對防呆，系統會自動將語言標籤轉為小寫加底線（例如 `zh_tw`）。若未帶 Header 則預設為 `en_us`。
 >* 儲存：存入基於 ThreadLocal 的 ContextHolder，供後續轉譯器讀取。
 
 **2. 轉譯器設計 (Message Translators)**

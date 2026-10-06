@@ -1,4 +1,4 @@
-package com.example.demo.application.shared;
+package com.example.demo.application.shared.dto;
 
 import java.util.List;
 

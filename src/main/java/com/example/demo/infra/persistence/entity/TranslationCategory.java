@@ -1,4 +1,4 @@
-package com.example.demo.application.domain.localization.aggregate;
+package com.example.demo.infra.persistence.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.example.demo.application.domain.localization.aggregate.entity.Translation;
-import com.example.demo.application.domain.localization.command.SaveTranslateCategoryCommand;
+import com.example.demo.infra.persistence.entity.Translation;
+import com.example.demo.application.shared.command.SaveTranslateCategoryCommand;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;

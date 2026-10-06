@@ -1,4 +1,4 @@
-package com.example.demo.infra.shared.exception;
+package com.example.demo.application.shared.exception;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

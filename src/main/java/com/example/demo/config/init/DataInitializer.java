@@ -8,7 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.application.domain.localization.command.SaveTranslateCategoryCommand;
+import com.example.demo.application.shared.command.SaveTranslateCategoryCommand;
 import com.example.demo.application.service.TranslationCommandService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,7 +43,19 @@ public class DataInitializer {
         }
       );
 
-      // 3. 這裡可以進一步處理，例如呼叫 Application Service 儲存
+      // 3. 正規化 JSON 中的語系代碼，確保不論 JSON 寫的是 zh-tw 還是 zh-TW，進到系統都轉為 zh_tw
+      commands.forEach(category -> {
+          if (category.getTranslations() != null) {
+              category.getTranslations().forEach(translation -> {
+                  if (translation.getLanguage() != null) {
+                      String normalized = translation.getLanguage().toLowerCase().replace("-", "_");
+                      translation.setLanguage(normalized);
+                  }
+              });
+          }
+      });
+
+      // 4. 這裡可以進一步處理，例如呼叫 Application Service 儲存
       translationCommandService.saveTranslateCategoryList(commands);
 
     } catch (IOException e) {

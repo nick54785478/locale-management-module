@@ -1,4 +1,4 @@
-package com.example.demo.infra.shared.res;
+package com.example.demo.application.shared.res;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

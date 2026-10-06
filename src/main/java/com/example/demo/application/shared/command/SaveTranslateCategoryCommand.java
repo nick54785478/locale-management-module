@@ -1,4 +1,4 @@
-package com.example.demo.application.domain.localization.command;
+package com.example.demo.application.shared.command;
 
 import java.util.ArrayList;
 import java.util.List;
