@@ -1,4 +1,4 @@
-package com.example.demo.util;
+package com.example.demo.infra.util;
 
 import java.time.Instant;
 import java.time.LocalDate;

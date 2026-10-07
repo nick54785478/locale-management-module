@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.infra.persistence.entity.Translation;
 import com.example.demo.infra.locale.share.enums.TranslationCacheName;
-import com.example.demo.infra.persistence.TranslationCategoryRepository;
+import com.example.demo.infra.persistence.repository.TranslationCategoryRepository;
 
 /**
  * 多語系例外訊息轉譯器（Local Exception Translator）

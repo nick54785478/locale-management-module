@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PagedQueriedData <T> {
+public class PagedGottenResult<T> {
 	
     private List<T> content;
     

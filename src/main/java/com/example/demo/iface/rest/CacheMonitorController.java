@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.application.service.CacheQueryService;
-import com.example.demo.application.shared.dto.CacheQueriedData;
-import com.example.demo.iface.dto.res.CacheQueriedResource;
-import com.example.demo.iface.dto.res.CachesQueriedResource;
+import com.example.demo.application.shared.dto.CacheGottenResult;
+import com.example.demo.iface.dto.res.CacheGottenResource;
+import com.example.demo.iface.dto.res.CachesGottenResource;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -74,11 +74,11 @@ public class CacheMonitorController {
 	 */
 	@GetMapping("")
 	@Operation(summary = "查詢單一快取值", description = "依據 cacheName 與 key 查詢快取內容")
-	public ResponseEntity<CacheQueriedResource> monitor(
+	public ResponseEntity<CacheGottenResource> monitor(
 			@Parameter(description = "快取名稱 (例如: ExceptionMessage)") @RequestParam String cacheName, 
 			@Parameter(description = "快取 Key") @RequestParam String key) {
 		Optional<Object> op = cacheQueryService.getCache(cacheName, key);
-		return new ResponseEntity<>(new CacheQueriedResource("200", "QUERIED_SUCCESS", op), HttpStatus.OK);
+		return new ResponseEntity<>(new CacheGottenResource("200", "QUERIED_SUCCESS", op), HttpStatus.OK);
 	}
 
 	/**
@@ -98,9 +98,9 @@ public class CacheMonitorController {
 	 */
 	@GetMapping("/all")
 	@Operation(summary = "查詢所有快取資料", description = "取得指定 cacheName 下的所有 key/value (僅支援 Caffeine)")
-	public ResponseEntity<CachesQueriedResource> getAllCache(
+	public ResponseEntity<CachesGottenResource> getAllCache(
 			@Parameter(description = "快取名稱") @RequestParam String cacheName) {
-		CacheQueriedData responseData = cacheQueryService.getAllCache(cacheName);
-		return new ResponseEntity<>(new CachesQueriedResource("200", "QUERY_SUCCESS", responseData), HttpStatus.OK);
+		CacheGottenResult responseData = cacheQueryService.getAllCache(cacheName);
+		return new ResponseEntity<>(new CachesGottenResource("200", "QUERY_SUCCESS", responseData), HttpStatus.OK);
 	}
 }

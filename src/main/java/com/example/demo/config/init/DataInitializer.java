@@ -8,10 +8,15 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.application.shared.command.SaveTranslateCategoryCommand;
+import com.example.demo.application.shared.command.inbound.CreateTranslateCategoryCommand;
+import com.example.demo.application.shared.command.inbound.CreateLocaleConfigCommand;
 import com.example.demo.application.service.TranslationCommandService;
+import com.example.demo.application.port.LocaleConfigRepositoryPort;
+import com.example.demo.infra.persistence.entity.LocaleConfig;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +27,10 @@ public class DataInitializer {
 
   @Autowired
   private TranslationCommandService translationCommandService;
+  
+  @Autowired
+  private LocaleConfigRepositoryPort localeConfigRepositoryPort;
+
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @PostConstruct
@@ -36,10 +45,10 @@ public class DataInitializer {
         return;
       }
 
-      // 2. 轉成 List<SaveTranslateCategoryCommand>
-      List<SaveTranslateCategoryCommand> commands = objectMapper.readValue(
+      // 2. 轉成 List<CreateTranslateCategoryCommand>
+      List<CreateTranslateCategoryCommand> commands = objectMapper.readValue(
         resource.getInputStream(),
-        new TypeReference<List<SaveTranslateCategoryCommand>>() {
+        new TypeReference<List<CreateTranslateCategoryCommand>>() {
         }
       );
 
@@ -55,8 +64,27 @@ public class DataInitializer {
           }
       });
 
-      // 4. 這裡可以進一步處理，例如呼叫 Application Service 儲存
-      translationCommandService.saveTranslateCategoryList(commands);
+      // 4. 自動初始化語系 (防呆機制：確保語系檔中出現的語系都有被建檔)
+      Set<String> uniqueLocales = commands.stream()
+          .flatMap(cmd -> cmd.getTranslations().stream())
+          .map(t -> t.getLanguage())
+          .collect(Collectors.toSet());
+
+      uniqueLocales.forEach(locale -> {
+          if (localeConfigRepositoryPort.findByCode(locale).isEmpty()) {
+              CreateLocaleConfigCommand createLocaleCmd = new CreateLocaleConfigCommand(
+                  locale, 
+                  locale.toUpperCase(), // 預設顯示名稱，例如 ZH_TW
+                  true, 
+                  "System Auto Init"
+              );
+              localeConfigRepositoryPort.save(new LocaleConfig(createLocaleCmd));
+              log.info("Auto-initialized locale config: {}", locale);
+          }
+      });
+
+      // 5. 這裡可以進一步處理，例如呼叫 Application Service 儲存
+      translationCommandService.createTranslateCategoryList(commands);
 
     } catch (IOException e) {
       log.error("Failed to read JSON file", e);

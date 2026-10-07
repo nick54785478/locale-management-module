@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.example.demo.infra.persistence.entity.Translation;
 import com.example.demo.infra.locale.share.enums.TranslationCacheName;
-import com.example.demo.infra.persistence.TranslationCategoryRepository;
+import com.example.demo.infra.persistence.repository.TranslationCategoryRepository;
 
 /**
  * 抽象多語系訊息轉譯模板（Template Method）

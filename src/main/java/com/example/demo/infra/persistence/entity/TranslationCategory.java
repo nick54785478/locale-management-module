@@ -8,7 +8,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.example.demo.infra.persistence.entity.Translation;
-import com.example.demo.application.shared.command.SaveTranslateCategoryCommand;
+import com.example.demo.application.shared.command.outbound.CreateTranslateCategoryPortCommand;
+import com.example.demo.application.shared.command.outbound.UpdateTranslateCategoryPortCommand;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -81,31 +82,36 @@ public class TranslationCategory {
   private List<Translation> translations = new ArrayList<>();
 
   /**
-   * 依據 Command 狀態，決定建立或更新 Category
+   * 建立 Category
    *
-   * @param command {@link SaveTranslateCategoryCommand}
+   * @param command {@link CreateTranslateCategoryCommand}
    */
-  public void apply(SaveTranslateCategoryCommand command) {
-    if (this.uuid == null) {
+  public void applyCreate(CreateTranslateCategoryPortCommand command) {
       this.create(command);
-    } else {
+  }
+
+  /**
+   * 更新 Category
+   *
+   * @param command {@link UpdateTranslateCategoryCommand}
+   */
+  public void applyUpdate(UpdateTranslateCategoryPortCommand command) {
       this.update(command);
-    }
   }
 
   /**
    * 新增一筆語系配置資料
    *
-   * @param command {@link SaveTranslateCategoryCommand}
+   * @param command {@link CreateTranslateCategoryCommand}
    */
-  public void create(SaveTranslateCategoryCommand command) {
+  public void create(CreateTranslateCategoryPortCommand command) {
     this.type = command.getType();
     this.code = command.getCode();
     this.description = command.getDescription();
 
     command.getTranslations().forEach(dto -> {
       Translation translation = new Translation();
-      translation.create(dto, this);
+      translation.createFromCreateCommand(dto, this);
       this.translations.add(translation);
     });
   }
@@ -115,9 +121,9 @@ public class TranslationCategory {
    *
    * <p>會自動新增、更新或移除 Translation 集合內的語言資料</p>
    *
-   * @param command {@link SaveTranslateCategoryCommand}
+   * @param command {@link UpdateTranslateCategoryCommand}
    */
-  public void update(SaveTranslateCategoryCommand command) {
+  public void update(UpdateTranslateCategoryPortCommand command) {
     this.type = command.getType();
     this.code = command.getCode();
     this.description = command.getDescription();
@@ -127,23 +133,21 @@ public class TranslationCategory {
       this.translations.stream()
         .collect(Collectors.toMap(Translation::getLanguage, Function.identity()));
 
-    // 更新 / 新增
-    for (SaveTranslateCategoryCommand.SaveTranslateCommand dto : command.getTranslations()) {
+    for (UpdateTranslateCategoryPortCommand.TranslationPortCommand dto : command.getTranslations()) {
       Translation translation = existingMap.get(dto.getLanguage());
 
       if (translation != null) {
         translation.updateText(dto.getTextValue(), dto.getRemark());
       } else {
         Translation newOne = new Translation();
-        newOne.create(dto, this);
+        newOne.createFromUpdateCommand(dto, this);
         this.translations.add(newOne);
       }
     }
 
-    // 移除已不存在的語系
     Set<String> incomingLanguages =
       command.getTranslations().stream()
-        .map(SaveTranslateCategoryCommand.SaveTranslateCommand::getLanguage)
+        .map(UpdateTranslateCategoryPortCommand.TranslationPortCommand::getLanguage)
         .collect(Collectors.toSet());
 
     this.translations.removeIf(t -> !incomingLanguages.contains(t.getLanguage()));

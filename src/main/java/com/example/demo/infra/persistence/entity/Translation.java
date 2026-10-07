@@ -1,7 +1,8 @@
 package com.example.demo.infra.persistence.entity;
 
 import com.example.demo.infra.persistence.entity.TranslationCategory;
-import com.example.demo.application.shared.command.SaveTranslateCategoryCommand;
+import com.example.demo.application.shared.command.outbound.CreateTranslateCategoryPortCommand;
+import com.example.demo.application.shared.command.outbound.UpdateTranslateCategoryPortCommand;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -74,7 +75,14 @@ public class Translation {
 	 * @param command  來源 Command
 	 * @param category 所屬分類
 	 */
-	public void create(SaveTranslateCategoryCommand.SaveTranslateCommand command, TranslationCategory category) {
+	public void createFromCreateCommand(CreateTranslateCategoryPortCommand.TranslationPortCommand command, TranslationCategory category) {
+		this.category = category;
+		this.language = command.getLanguage();
+		this.textValue = command.getTextValue();
+		this.remark = command.getRemark();
+	}
+
+	public void createFromUpdateCommand(UpdateTranslateCategoryPortCommand.TranslationPortCommand command, TranslationCategory category) {
 		this.category = category;
 		this.language = command.getLanguage();
 		this.textValue = command.getTextValue();

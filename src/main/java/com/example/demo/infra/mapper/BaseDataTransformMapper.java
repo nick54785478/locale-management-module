@@ -10,9 +10,9 @@ import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 
-import com.example.demo.util.DateTransformUtil;
-import com.example.demo.util.JsonParseUtil;
-import com.example.demo.util.StringArrayTransformUtil;
+import com.example.demo.infra.util.DateTransformUtil;
+import com.example.demo.infra.util.JsonParseUtil;
+import com.example.demo.infra.util.StringArrayTransformUtil;
 
 /**
  * Base Data Transforming Mapper

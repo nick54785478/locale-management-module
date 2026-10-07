@@ -9,7 +9,7 @@ import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.application.port.CacheMangerPort;
-import com.example.demo.application.shared.dto.CacheQueriedData;
+import com.example.demo.application.shared.dto.CacheGottenResult;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -100,17 +100,17 @@ public class SpringCacheAdapter implements CacheMangerPort {
 	 * 注意：
 	 * <ul>
 	 * <li>僅支援 CaffeineCache 實作</li>
-	 * <li>回傳 {@link CacheQueriedData}，包含 cacheName 與每個快取紀錄</li>
+	 * <li>回傳 {@link CacheGottenResult}，包含 cacheName 與每個快取紀錄</li>
 	 * </ul>
 	 * </p>
 	 *
 	 * @param cacheName 快取名稱
-	 * @return 封裝快取資料的 {@link CacheQueriedData}，若不是 CaffeineCache 則 details 為空
+	 * @return 封裝快取資料的 {@link CacheGottenResult}，若不是 CaffeineCache 則 details 為空
 	 */
 	@Override
-	public CacheQueriedData getAll(String cacheName) {
+	public CacheGottenResult getAll(String cacheName) {
 
-		CacheQueriedData result = new CacheQueriedData();
+		CacheGottenResult result = new CacheGottenResult();
 		result.setCacheName(cacheName);
 
 		Cache cache = cacheManager.getCache(cacheName);
@@ -122,7 +122,7 @@ public class SpringCacheAdapter implements CacheMangerPort {
 
 		cacheMap.forEach((k, v) -> {
 			log.debug("k = " + k + ", v = " + v);
-			CacheQueriedData.CacheMetaData metaData = new CacheQueriedData.CacheMetaData(k.toString(), v);
+			CacheGottenResult.CacheMetaData metaData = new CacheGottenResult.CacheMetaData(k.toString(), v);
 			result.getDetails().add(metaData);
 		});
 		return result;

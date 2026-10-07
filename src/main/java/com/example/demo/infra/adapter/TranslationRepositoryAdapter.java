@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 
+import com.example.demo.application.shared.dto.TranslateCategoryGottenResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -14,11 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.infra.persistence.entity.TranslationCategory;
 import com.example.demo.application.port.TranslationRepositoryPort;
-import com.example.demo.application.shared.command.SaveTranslateCategoryCommand;
-import com.example.demo.application.shared.dto.PagedQueriedData;
-import com.example.demo.application.shared.dto.TranslateCategoryQueriedData;
+import com.example.demo.application.shared.command.outbound.CreateTranslateCategoryPortCommand;
+import com.example.demo.application.shared.command.outbound.UpdateTranslateCategoryPortCommand;
+import com.example.demo.application.shared.dto.PagedGottenResult;
 import com.example.demo.application.shared.payload.TranslationChangedPayload;
-import com.example.demo.infra.persistence.TranslationCategoryRepository;
+import com.example.demo.infra.persistence.repository.TranslationCategoryRepository;
 import com.example.demo.infra.spec.GetTranslationSpecification;
 import com.example.demo.infra.mapper.TranslationMapper;
 
@@ -37,23 +38,23 @@ public class TranslationRepositoryAdapter implements TranslationRepositoryPort {
 	private final TranslationMapper mapper;
 
 	@Override
-	public TranslateCategoryQueriedData getCategory(String type, String code) {
+	public TranslateCategoryGottenResult getCategory(String type, String code) {
 		TranslationCategory translationCategory = repository.findByTypeAndCode(type, code)
 				.orElseGet(TranslationCategory::new);
 		return mapper.transformToQueriedData(translationCategory);
 	}
 
 	@Override
-	public PagedQueriedData<TranslateCategoryQueriedData> getPagedCategories(String type, String code, Integer page, Integer size) {
+	public PagedGottenResult<TranslateCategoryGottenResult> getPagedCategories(String type, String code, Integer page, Integer size) {
 		GetTranslationSpecification specification = new GetTranslationSpecification(type, code);
 		PageRequest pageRequest = PageRequest.of(page, size);
 		Page<TranslationCategory> pagedData = repository.findAll(specification, pageRequest);
 
-		List<TranslateCategoryQueriedData> content = pagedData.getContent().stream()
+		List<TranslateCategoryGottenResult> content = pagedData.getContent().stream()
 				.map(mapper::transformToQueriedData)
 				.toList();
 
-		return new PagedQueriedData<>(
+		return new PagedGottenResult<>(
 				content,
 				pagedData.getTotalElements(),
 				pagedData.getTotalPages(),
@@ -64,11 +65,11 @@ public class TranslationRepositoryAdapter implements TranslationRepositoryPort {
 
 	@Override
 	@Transactional
-	public List<TranslationChangedPayload> saveCategory(SaveTranslateCategoryCommand command) {
+	public List<TranslationChangedPayload> createCategory(CreateTranslateCategoryPortCommand command) {
 		TranslationCategory category = repository.findByTypeAndCode(command.getType(), command.getCode())
 				.orElseGet(TranslationCategory::new);
 		
-		category.apply(command);
+		category.applyCreate(command);
 		TranslationCategory saved = repository.save(category);
 		
 		return saved.getTranslations().stream()
@@ -78,19 +79,33 @@ public class TranslationRepositoryAdapter implements TranslationRepositoryPort {
 
 	@Override
 	@Transactional
-	public void saveCategoryList(List<SaveTranslateCategoryCommand> commands) {
-		Set<String> types = commands.stream().map(SaveTranslateCategoryCommand::getType).collect(Collectors.toSet());
-		Set<String> codes = commands.stream().map(SaveTranslateCategoryCommand::getCode).collect(Collectors.toSet());
+	public List<TranslationChangedPayload> updateCategory(UpdateTranslateCategoryPortCommand command) {
+		TranslationCategory category = repository.findByTypeAndCode(command.getType(), command.getCode())
+				.orElseGet(TranslationCategory::new);
+		
+		category.applyUpdate(command);
+		TranslationCategory saved = repository.save(category);
+		
+		return saved.getTranslations().stream()
+				.map(mapper::transformToPayload)
+				.toList();
+	}
+
+	@Override
+	@Transactional
+	public void createCategoryList(List<CreateTranslateCategoryPortCommand> commands) {
+		Set<String> types = commands.stream().map(CreateTranslateCategoryPortCommand::getType).collect(Collectors.toSet());
+		Set<String> codes = commands.stream().map(CreateTranslateCategoryPortCommand::getCode).collect(Collectors.toSet());
 
 		List<TranslationCategory> existingCategories = repository.findByTypeInAndCodeIn(types, codes);
 		Map<String, TranslationCategory> categoryMap = existingCategories.stream()
 				.collect(Collectors.toMap(c -> c.getType() + "-" + c.getCode(), Function.identity()));
 
 		List<TranslationCategory> saveList = new ArrayList<>();
-		for (SaveTranslateCategoryCommand command : commands) {
+		for (CreateTranslateCategoryPortCommand command : commands) {
 			String key = command.getType() + "-" + command.getCode();
 			TranslationCategory category = categoryMap.getOrDefault(key, new TranslationCategory());
-			category.apply(command);
+			category.applyCreate(command);
 			saveList.add(category);
 		}
 		

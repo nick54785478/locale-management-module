@@ -2,7 +2,7 @@ package com.example.demo.application.port;
 
 import java.util.Optional;
 
-import com.example.demo.application.shared.dto.CacheQueriedData;
+import com.example.demo.application.shared.dto.CacheGottenResult;
 
 /**
  * Cache 管理 Port（Application Layer 契約）。
@@ -54,5 +54,5 @@ public interface CacheMangerPort {
 	 * 是否支援由 Adapter 決定； 若不支援，應回傳空集合。
 	 * </p>
 	 */
-	CacheQueriedData getAll(String cacheName);
+	CacheGottenResult getAll(String cacheName);
 }

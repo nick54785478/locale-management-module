@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "儲存多語系配置請求物件")
-public class SaveTranslateCategoryResource {
+@Schema(description = "更新多語系配置請求物件")
+public class UpdateTranslateCategoryResource {
 
   @Schema(description = "分類類型 (例: ErrorMessage, UI_Text)", example = "ErrorMessage")
   private String type;
@@ -24,13 +24,13 @@ public class SaveTranslateCategoryResource {
   private String description;
 
   @Schema(description = "多語系翻譯內容清單")
-  private List<SaveTranslateResource> translations = new ArrayList<>();
+  private List<UpdateTranslateResource> translations = new ArrayList<>();
 
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
   @Schema(description = "多語系翻譯內容項目")
-  public static class SaveTranslateResource {
+  public static class UpdateTranslateResource {
 
     @Schema(description = "語言代碼 (例: zh-TW, en-US)", example = "zh-TW")
     private String language;
@@ -38,7 +38,7 @@ public class SaveTranslateCategoryResource {
     @Schema(description = "文字內容", example = "發生預期外錯誤")
     private String textValue;
 
-    @Schema(description = "備註", example = "主要用於登入失敗時")
+    @Schema(description = "備註", example = "前端顯示用")
     private String remark;
   }
 }

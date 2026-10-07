@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CacheQueriedData {
+public class CacheGottenResult {
 
 	/**
 	 * Cache 名稱

@@ -2,9 +2,10 @@ package com.example.demo.application.port;
 
 import java.util.List;
 
-import com.example.demo.application.shared.command.SaveTranslateCategoryCommand;
-import com.example.demo.application.shared.dto.PagedQueriedData;
-import com.example.demo.application.shared.dto.TranslateCategoryQueriedData;
+import com.example.demo.application.shared.command.outbound.CreateTranslateCategoryPortCommand;
+import com.example.demo.application.shared.command.outbound.UpdateTranslateCategoryPortCommand;
+import com.example.demo.application.shared.dto.PagedGottenResult;
+import com.example.demo.application.shared.dto.TranslateCategoryGottenResult;
 import com.example.demo.application.shared.payload.TranslationChangedPayload;
 
 /**
@@ -17,20 +18,22 @@ public interface TranslationRepositoryPort {
 	/**
 	 * 取得單筆多語配置
 	 */
-	TranslateCategoryQueriedData getCategory(String type, String code);
+	TranslateCategoryGottenResult getCategory(String type, String code);
 
 	/**
 	 * 分頁查詢多語系分類
 	 */
-	PagedQueriedData<TranslateCategoryQueriedData> getPagedCategories(String type, String code, Integer page, Integer size);
+	PagedGottenResult<TranslateCategoryGottenResult> getPagedCategories(String type, String code, Integer page, Integer size);
 
 	/**
 	 * 新增或更新多語系分類，並回傳異動的 Payload 以供快取更新
 	 */
-	List<TranslationChangedPayload> saveCategory(SaveTranslateCategoryCommand command);
+	List<TranslationChangedPayload> createCategory(CreateTranslateCategoryPortCommand command);
+
+	List<TranslationChangedPayload> updateCategory(UpdateTranslateCategoryPortCommand command);
 
 	/**
 	 * 批次新增或更新多語系分類
 	 */
-	void saveCategoryList(List<SaveTranslateCategoryCommand> commands);
+	void createCategoryList(List<CreateTranslateCategoryPortCommand> commands);
 }
