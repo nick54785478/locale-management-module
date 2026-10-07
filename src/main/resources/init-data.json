@@ -438,5 +438,49 @@
         "remark": "姓名(簡中)"
       }
     ]
+  },
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "LOCALE_ALREADY_EXISTS",
+    "description": "'語系已存在'的多語配置",
+    "translations": [
+      {
+        "language": "en-US",
+        "textValue": "Locale already exists",
+        "remark": "語系已存在(英文)"
+      },
+      {
+        "language": "zh-TW",
+        "textValue": "語系已存在",
+        "remark": "語系已存在(繁中)"
+      },
+      {
+        "language": "zh-CN",
+        "textValue": "语系已存在",
+        "remark": "語系已存在(簡中)"
+      }
+    ]
+  },
+  {
+    "type": "EXCEPTION_MESSAGE",
+    "code": "LOCALE_NOT_FOUND",
+    "description": "'語系不存在'的多語配置",
+    "translations": [
+      {
+        "language": "en-US",
+        "textValue": "Locale not found",
+        "remark": "語系不存在(英文)"
+      },
+      {
+        "language": "zh-TW",
+        "textValue": "語系不存在",
+        "remark": "語系不存在(繁中)"
+      },
+      {
+        "language": "zh-CN",
+        "textValue": "语系不存在",
+        "remark": "語系不存在(簡中)"
+      }
+    ]
   }
 ]

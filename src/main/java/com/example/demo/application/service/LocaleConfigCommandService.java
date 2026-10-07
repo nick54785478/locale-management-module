@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.application.port.LocaleConfigRepositoryPort;
 import com.example.demo.application.shared.command.inbound.CreateLocaleConfigCommand;
 import com.example.demo.application.shared.command.inbound.UpdateLocaleConfigCommand;
+import com.example.demo.application.shared.exception.LocaleAlreadyExistsException;
+import com.example.demo.application.shared.exception.LocaleNotFoundException;
 import com.example.demo.infra.persistence.entity.LocaleConfig;
 
 import lombok.AllArgsConstructor;
@@ -35,7 +37,7 @@ public class LocaleConfigCommandService {
         LocaleConfig entity = repositoryPort.findByCode(command.getCode()).orElse(null);
         
         if (entity != null) {
-            throw new IllegalArgumentException("語系已存在");
+            throw new LocaleAlreadyExistsException();
         }
         
         entity = new LocaleConfig(command);
@@ -50,7 +52,7 @@ public class LocaleConfigCommandService {
      */
     public void update(UpdateLocaleConfigCommand command) {
         LocaleConfig entity = repositoryPort.findByCode(command.getCode())
-            .orElseThrow(() -> new IllegalArgumentException("語系不存在"));
+            .orElseThrow(() -> new LocaleNotFoundException());
             
         entity.applyUpdate(command);
         repositoryPort.save(entity);

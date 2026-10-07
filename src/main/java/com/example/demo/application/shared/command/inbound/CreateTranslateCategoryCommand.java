@@ -25,5 +25,9 @@ public class CreateTranslateCategoryCommand {
     private String language;
     private String textValue;
     private String remark;
+
+    public String getLanguage() {
+        return language == null ? null : language.toLowerCase().replace("-", "_");
+    }
   }
 }

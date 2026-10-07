@@ -12,4 +12,8 @@ public class CreateLocaleConfigCommand {
     private String displayName;
     private Boolean enabled;
     private String remark;
+
+    public String getCode() {
+        return code == null ? null : code.toLowerCase().replace("-", "_");
+    }
 }
