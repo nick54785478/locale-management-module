@@ -12,7 +12,7 @@ import com.example.demo.application.shared.command.inbound.CreateTranslateCatego
 import com.example.demo.application.shared.command.inbound.CreateLocaleConfigCommand;
 import com.example.demo.application.service.TranslationCommandService;
 import com.example.demo.application.port.LocaleConfigRepositoryPort;
-import com.example.demo.infra.persistence.entity.LocaleConfig;
+import com.example.demo.application.shared.command.outbound.CreateLocaleConfigPortCommand;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
@@ -71,14 +71,14 @@ public class DataInitializer {
           .collect(Collectors.toSet());
 
       uniqueLocales.forEach(locale -> {
-          if (localeConfigRepositoryPort.findByCode(locale).isEmpty()) {
-              CreateLocaleConfigCommand createLocaleCmd = new CreateLocaleConfigCommand(
+          if (!localeConfigRepositoryPort.existsByCode(locale)) {
+              CreateLocaleConfigPortCommand portCommand = new CreateLocaleConfigPortCommand(
                   locale, 
                   locale.toUpperCase(), // 預設顯示名稱，例如 ZH_TW
                   true, 
                   "System Auto Init"
               );
-              localeConfigRepositoryPort.save(new LocaleConfig(createLocaleCmd));
+              localeConfigRepositoryPort.createConfig(portCommand);
               log.info("Auto-initialized locale config: {}", locale);
           }
       });

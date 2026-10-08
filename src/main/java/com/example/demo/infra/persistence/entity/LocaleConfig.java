@@ -1,7 +1,7 @@
 package com.example.demo.infra.persistence.entity;
 
-import com.example.demo.application.shared.command.inbound.CreateLocaleConfigCommand;
-import com.example.demo.application.shared.command.inbound.UpdateLocaleConfigCommand;
+import com.example.demo.application.shared.command.outbound.CreateLocaleConfigPortCommand;
+import com.example.demo.application.shared.command.outbound.UpdateLocaleConfigPortCommand;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,7 +45,7 @@ public class LocaleConfig {
      * 
      * @param command 創建指令
      */
-    public LocaleConfig(CreateLocaleConfigCommand command) {
+    public LocaleConfig(CreateLocaleConfigPortCommand command) {
         this.code = command.getCode();
         this.displayName = command.getDisplayName();
         this.enabled = command.getEnabled() != null ? command.getEnabled() : true;
@@ -57,7 +57,7 @@ public class LocaleConfig {
      *
      * @param command 更新指令
      */
-    public void applyUpdate(UpdateLocaleConfigCommand command) {
+    public void applyUpdate(UpdateLocaleConfigPortCommand command) {
         // 在這裡可以封裝更嚴格的防呆機制，例如不允許把已經存在的代碼亂改
         this.displayName = command.getDisplayName();
         if (command.getEnabled() != null) {

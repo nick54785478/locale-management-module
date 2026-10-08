@@ -7,9 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.application.port.LocaleConfigRepositoryPort;
 import com.example.demo.application.shared.command.inbound.CreateLocaleConfigCommand;
 import com.example.demo.application.shared.command.inbound.UpdateLocaleConfigCommand;
+import com.example.demo.application.shared.command.outbound.CreateLocaleConfigPortCommand;
+import com.example.demo.application.shared.command.outbound.UpdateLocaleConfigPortCommand;
 import com.example.demo.application.shared.exception.LocaleAlreadyExistsException;
 import com.example.demo.application.shared.exception.LocaleNotFoundException;
-import com.example.demo.infra.persistence.entity.LocaleConfig;
 
 import lombok.AllArgsConstructor;
 
@@ -34,14 +35,17 @@ public class LocaleConfigCommandService {
      * @throws IllegalArgumentException 當語系已經存在時拋出例外
      */
     public void create(CreateLocaleConfigCommand command) {
-        LocaleConfig entity = repositoryPort.findByCode(command.getCode()).orElse(null);
-        
-        if (entity != null) {
+        if (repositoryPort.existsByCode(command.getCode())) {
             throw new LocaleAlreadyExistsException();
         }
         
-        entity = new LocaleConfig(command);
-        repositoryPort.save(entity);
+        CreateLocaleConfigPortCommand portCommand = new CreateLocaleConfigPortCommand(
+            command.getCode(),
+            command.getDisplayName(),
+            command.getEnabled(),
+            command.getRemark()
+        );
+        repositoryPort.createConfig(portCommand);
     }
 
     /**
@@ -51,10 +55,16 @@ public class LocaleConfigCommandService {
      * @throws IllegalArgumentException 當語系不存在時拋出例外
      */
     public void update(UpdateLocaleConfigCommand command) {
-        LocaleConfig entity = repositoryPort.findByCode(command.getCode())
-            .orElseThrow(() -> new LocaleNotFoundException());
-            
-        entity.applyUpdate(command);
-        repositoryPort.save(entity);
+        if (!repositoryPort.existsByCode(command.getCode())) {
+            throw new LocaleNotFoundException();
+        }
+        
+        UpdateLocaleConfigPortCommand portCommand = new UpdateLocaleConfigPortCommand(
+            command.getCode(),
+            command.getDisplayName(),
+            command.getEnabled(),
+            command.getRemark()
+        );
+        repositoryPort.updateConfig(portCommand);
     }
 }

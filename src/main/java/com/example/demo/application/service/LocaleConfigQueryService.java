@@ -32,9 +32,7 @@ public class LocaleConfigQueryService {
      * @return 語系配置的查詢結果 DTO 清單
      */
     public List<LocaleConfigGottenResult> findAll() {
-        return repositoryPort.findAll().stream()
-                .map(entity -> new LocaleConfigGottenResult(entity.getCode(), entity.getDisplayName(), entity.getEnabled(), entity.getRemark()))
-                .collect(Collectors.toList());
+        return repositoryPort.findAll();
     }
 
     /**
@@ -44,7 +42,6 @@ public class LocaleConfigQueryService {
      * @return 包含語系查詢結果的 Optional，若不存在則回傳 Optional.empty()
      */
     public Optional<LocaleConfigGottenResult> findByCode(String code) {
-        return repositoryPort.findByCode(code)
-                .map(entity -> new LocaleConfigGottenResult(entity.getCode(), entity.getDisplayName(), entity.getEnabled(), entity.getRemark()));
+        return repositoryPort.findByCode(code);
     }
 }

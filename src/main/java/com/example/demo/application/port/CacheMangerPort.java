@@ -20,16 +20,25 @@ public interface CacheMangerPort {
 
 	/**
 	 * 放入快取。
+	 *
+	 * @param cacheName 快取名稱 (Cache Name)
+	 * @param key       快取鍵值 (Cache Key)
+	 * @param value     欲放入快取的資料
 	 */
 	void put(String cacheName, String key, Object value);
 
 	/**
 	 * 移除指定 key 的快取資料。
+	 *
+	 * @param cacheName 快取名稱
+	 * @param key       欲移除的快取鍵值
 	 */
 	void evict(String cacheName, String key);
 
 	/**
-	 * 清空指定快取。
+	 * 清空指定快取名稱下的所有資料。
+	 *
+	 * @param cacheName 快取名稱
 	 */
 	void clear(String cacheName);
 
