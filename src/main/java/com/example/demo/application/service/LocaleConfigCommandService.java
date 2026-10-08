@@ -32,7 +32,7 @@ public class LocaleConfigCommandService {
      * 建立新的語系配置
      *
      * @param command 包含建立語系所需資料的指令 (Inbound Command)
-     * @throws IllegalArgumentException 當語系已經存在時拋出例外
+     * @throws LocaleAlreadyExistsException 當語系已經存在時拋出例外
      */
     public void create(CreateLocaleConfigCommand command) {
         if (repositoryPort.existsByCode(command.getCode())) {
@@ -52,7 +52,7 @@ public class LocaleConfigCommandService {
      * 更新已存在的語系配置
      *
      * @param command 包含更新語系所需資料的指令 (Inbound Command)
-     * @throws IllegalArgumentException 當語系不存在時拋出例外
+     * @throws LocaleNotFoundException 當語系不存在時拋出例外
      */
     public void update(UpdateLocaleConfigCommand command) {
         if (!repositoryPort.existsByCode(command.getCode())) {
