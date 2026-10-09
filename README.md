@@ -6,9 +6,10 @@
 ## 本模組旨在解決以下問題：
 
 * 管理多語系資料(可動態擴充語系)
+* 提供系統級的語系配置管理 (動態啟用/停用支援語系)
 * 統一 多語系例外訊息（Exception Message） 的管理方式
 * 避免例外發生時頻繁存取資料庫 --> 提供可觀測、可除錯的 JVM In-Memory Cache
-* 符合 Clean Architecture / Hexagonal Architecture
+* 嚴格符合 Clean Architecture / Hexagonal Architecture (Port & Adapter)
 * 快取策略（TTL、容量）與業務邏輯完全解耦
 
 
@@ -82,14 +83,26 @@
 	    Return --> FinalResponse((API Response))
 
 
-## 領域模型設計 (Domain Model)
+## 領域模型與架構設計 (Domain Model & Hexagonal Architecture)
 
-遵循 DDD 聚合原則，確保資料的一致性與封裝：
+遵循 DDD 聚合原則與六角架構，確保資料的一致性與完全解耦：
+
+**1. 領域實體與聚合 (Domain Entities)**
 >* TranslationCategory (Aggregate Root)：表示一組「相同語意」的翻譯集合（例如一個錯誤代碼）。
 >* Translation (Entity)：具體各個語系的文字內容。
->* TranslationCategory 與 Translation 為一對多關係。
+>* LocaleConfig (Entity)：管理系統支援的語系代碼與狀態。
 
-設計亮點：所有翻譯的異動（新增/修改）皆須透過 TranslationCategory 進行，Service 層僅負責呼叫聚合根的方法，不直接操作內部集合。
+**2. 嚴格的六角架構 (Port & Adapter)**
+>* CQS (Command Query Separation)：應用層 (Application) 區分寫入 (Command Service) 與查詢 (Query Service)。
+>* Inbound & Outbound Commands：Controller 向 Service 傳遞 `Inbound Command`；Service 向 Port (Infra) 傳遞 `Outbound PortCommand`。
+>* 防腐層 (Anti-Corruption Layer)：JPA Entities (如 `TranslationCategory`, `LocaleConfig`) 絕對不會跨越至 Application 層。Infra 層的 Adapter 負責將 `PortCommand` 轉為 Entity 寫入，並將查詢的 Entity 轉為 DTO (`GottenResult`) 回傳，完美隔絕底層框架污染。
+
+## 動態語系配置 (Locale Config)
+
+本模組內建了完整的動態語系管理機制，不需修改程式碼即可控制系統支援的語言：
+>* **動態驗證**：在新增或更新翻譯時，系統會自動驗證目標語系是否已註冊，若無則拋出 `LocaleNotFoundException` 並阻斷寫入。
+>* **資料初始化**：系統啟動時會自動讀取 `init-data.json`，透過 Application Service 批次初始化基礎語系（如 zh-TW, en-US）與預設錯誤/成功訊息。
+
 
 
 ## 攔截與轉譯邏輯
@@ -105,9 +118,9 @@
 >* Record 處理：由於 Record 是 Immutable 的，系統會透過反射（Reflection）讀取組件並調用全參數建構子（Canonical Constructor）重新建立物件。
 
 
-## 快取策略 (Caffeine Configuration)
+## 快取策略與動態切換 (Caching Strategy & Dynamic Toggle)
 
-本模組為了兼顧「開發便利性」與「底層操作彈性」，採用了雙層快取管理設計。
+本模組為了兼顧「開發便利性」、「底層操作彈性」以及「分散式架構擴展性」，採用了雙層快取管理與條件式註冊設計。
 
 **1. 雙層快取策略**
 >* 宣告式快取 (Spring Cache Annotation)：
@@ -126,12 +139,19 @@
 >* get(cacheName, key)：取得快取值，並回傳 Optional。
 >* getAll(cacheName)：獲取指定快取內所有的 Key-Value 對（用於監控或除錯）。
 
-**SpringCacheAdapter (實作)** : 基於 Spring Cache 抽象進行實作，目前針對 Caffeine Cache 優化：
->* Native Access：直接操作底層 Native Cache，效能損耗極低。
->* Optional Unwrap：由於 Spring Cache 存儲時可能會將 Optional 序列化，Adapter 會自動處理 Unwrap 邏輯，確保上層呼叫時拿到的是正確的型別。
->* 一致性保證：確保 @Cacheable 寫入的資料與手動透過 Port 寫入的資料格式一致，避免讀取異常。
+**雙適配器實作 (Dual Adapters)**：
+>* **SpringCacheAdapter (預設 - Caffeine)**：基於 Spring Cache 抽象進行實作，針對 Caffeine Cache 進行 Native Access 最佳化，提供極低延遲的單機快取。並自動處理 Optional Unwrap 邏輯。
+>* **RedisCacheAdapter (備用 - Redis)**：基於 `RedisTemplate` 實作，適合跨服務/微服務架構共享快取。內建 Key 隔離機制 (`cacheName::key`) 與批次清理。
 
-**3. 快取防禦設計 (Cache Invariant)**
+**3. 一鍵切換快取機制 (Dynamic Toggle)**
+系統內建了條件式註冊 (@ConditionalOnProperty)，開發者只需修改 `application.properties` 即可無縫切換全域快取引擎（包含 @Cacheable 與 CacheManagerPort）：
+```properties
+# 可選值: caffeine (單機預設), redis (分散式共享)
+app.cache.type=caffeine
+```
+切換後系統將自動抽換底層的 CacheManager 與相對應的 Adapter，Application 層業務邏輯完全「零感知、免修改」！
+
+**4. 快取防禦設計 (Cache Invariant)**
 >* 負向快取 (Negative Caching)：當資料庫中不存在某個翻譯時，轉譯器回傳 Optional.empty()，Adapter 仍會將此結果快取。這能有效防止 快取穿透（Cache Penetration），避免惡意請求或無效 Key 反覆衝擊資料庫。
 >* 自動正規化：所有的 Key 在進入快取層前皆會經過 normalizeLang() 處理，避免 zh-TW 與 zh_tw 被視為不同 Key 而造成記憶體浪費。
 
@@ -170,11 +190,9 @@
 
 **如何新增一筆翻譯？**
 
-1. 在資料庫中插入一筆 TranslationCategory，並指定 type（如 SUCCESS_MESSAGE）。
-
-2. 在 Translation 表中插入該 Category 下不同 language 的文字內容。
-
-3. 調用 refreshCache API 刷新 JVM 記憶體。
+1. 準備 Payload 並透過 Controller 呼叫對應的 Inbound Command (例如 `CreateTranslateCategoryCommand`)。
+2. Service 層會自動校驗 Payload 內的語系是否存在於 `LocaleConfig` 中。
+3. 寫入 Infra 層後，系統會自動觸發 `CacheRefresherRegistryPort` 完成 JVM 快取的刷新，無須人工介入。
 
 **在程式碼中使用**
 

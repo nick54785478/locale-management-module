@@ -32,7 +32,7 @@ import lombok.AllArgsConstructor;
  */
 @Component
 @AllArgsConstructor
-public class TranslationRepositoryAdapter implements TranslationRepositoryPort {
+class TranslationRepositoryAdapter implements TranslationRepositoryPort {
 
 	private final TranslationCategoryRepository repository;
 	private final TranslationMapper mapper;

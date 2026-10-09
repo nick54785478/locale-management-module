@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
-import org.springframework.stereotype.Component;
 
 import com.example.demo.application.port.CacheMangerPort;
 import com.example.demo.application.shared.dto.CacheGottenResult;
@@ -23,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
  * </p>
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class SpringCacheAdapter implements CacheMangerPort {
 
